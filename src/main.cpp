@@ -2,6 +2,7 @@
 #include <ESP8266WiFi.h>
 #include <WiFiClient.h>
 #include <ESP8266WebServer.h>
+
 //config Rede
 const char* ssid     = "PROF.RAFAEL"; //Roteador
 const char* password = "";
@@ -14,6 +15,7 @@ String page;
 const int sensor = 4;
 const int led = 5;
 unsigned long evento = 0;
+
 void setup() {
   pinMode(sensor, INPUT_PULLUP);
   pinMode(led, OUTPUT);
@@ -33,7 +35,7 @@ void setup() {
   Serial.println(WiFi.localIP());
   server.begin();
   server.on("/", [](){
-     page = "<!DOCTYPE html> \
+    page = "<!DOCTYPE html> \
              <html> \
              <head> <meta http-equiv='refresh' content='0' </head> \
              <body> \
@@ -43,7 +45,9 @@ void setup() {
     server.send(200, "text/html", page);
   });
 }
+
 void loop(){
+            //back end
             int output = digitalRead(sensor);
             int statusled = digitalRead(led);
             if (output == HIGH){
@@ -59,5 +63,5 @@ void loop(){
                }
              evento = millis();
              }
-             server.handleClient();
+             server.handleClient();//atualização
 }
